@@ -1,8 +1,7 @@
 package cleancode.anagrams;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public class WordsReverser {
 	
@@ -20,26 +19,37 @@ public class WordsReverser {
 	}
 	
 	private String reverseLettersOnly(String input) {
-		char[] stringToChars = input.toCharArray(); 
-		ArrayList<Character> letters = new ArrayList<>();
-		HashMap<Integer, Character> nonLetters = new HashMap<>();
-		for (int i = 0; i < stringToChars.length; i++) {
-			if (Character.isLetter(stringToChars[i])) {
-				letters.add(stringToChars[i]);
-			} else {
-				nonLetters.put(i, stringToChars[i]);
+		StringBuilder result = getReversedWordWithoutNonLetters(input);
+		TreeMap<Integer, Character> nonLettersPositions = getNonLettersPositions(input);
+		setNonLettersToReversedWord(result, nonLettersPositions);
+		return result.toString();
+	}
+	
+	private StringBuilder getReversedWordWithoutNonLetters(String word) {
+		StringBuilder letters = new StringBuilder();
+		for (int i = 0; i < word.length(); i++) {
+			if (Character.isLetter(word.charAt(i))) {
+				letters.append(word.charAt(i));
 			}
 		}
-		Collections.reverse(letters);
-		int index = 0;
-		char[] result = new char[stringToChars.length];
-		for (int i = 0; i < stringToChars.length; i++) {
+		return letters.reverse();
+	}
+	
+	private TreeMap<Integer, Character> getNonLettersPositions(String word) {
+		TreeMap<Integer, Character> nonLetters = new TreeMap<>();
+		for (int i = 0; i < word.length(); i++) {
+			if (!Character.isLetter(word.charAt(i))) {
+				nonLetters.put(i, word.charAt(i));
+			}
+		}
+		return nonLetters;
+	}
+	
+	private void setNonLettersToReversedWord(StringBuilder result, TreeMap<Integer, Character> nonLetters) {
+		for (int i = 0; i < result.length(); i++) {
 			if (nonLetters.containsKey(i)) {
-				result[i] = nonLetters.get(i);
-			} else {
-				result[i] = letters.get(index++);
+				result.insert(i, nonLetters.get(i));
 			}
 		}
-		return new String(result);
 	}
 }
