@@ -4,7 +4,7 @@ public class ReverserRunner {
 	
 	public static void main(String[] args) {
 		WordsReverser wordsReverser = new WordsReverser();
-		String test = "St4dium ex!t 5trategy.";
+		String test = "123abc456";
 		System.out.println(wordsReverser.reverseWords(test));
 	}
 
