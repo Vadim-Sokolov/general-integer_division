@@ -47,10 +47,8 @@ public class WordsReverser {
 	}
 	
 	private void setNonLettersToReversedWord(StringBuilder result, Map<Integer, Character> nonLetters) {
-		for (int i = 0; i < (result.length() + nonLetters.size()); i++) {
-			if (nonLetters.containsKey(i)) {
-				result.insert(i, nonLetters.get(i));
-			}
+		for(Map.Entry<Integer, Character> nonLetter : nonLetters.entrySet()) {
+			result.insert(nonLetter.getKey(), String.valueOf(nonLetter.getValue()));
 		}
 	}
 }
