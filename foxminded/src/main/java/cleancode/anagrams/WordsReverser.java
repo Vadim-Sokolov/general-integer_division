@@ -15,18 +15,18 @@ public class WordsReverser {
 		return result.toString().trim();
 	}
 	
-	private String[] splitStringIntoWords(String stringToSplit) {
+	public String[] splitStringIntoWords(String stringToSplit) {
 		return stringToSplit.split("\\s+");
 	}
 	
-	private String createReversedWord(String word) {
+	public String createReversedWord(String word) {
 		StringBuilder result = getReversedWordWithoutNonLetters(word);
 		Map<Integer, Character> nonLettersPositions = getNonLettersPositions(word);
 		setNonLettersToReversedWord(result, nonLettersPositions);
 		return result.toString();
 	}
 	
-	private StringBuilder getReversedWordWithoutNonLetters(String word) {
+	public StringBuilder getReversedWordWithoutNonLetters(String word) {
 		StringBuilder wordWithoutNonLetters = new StringBuilder();
 		for (int i = 0; i < word.length(); i++) {
 			if (Character.isLetter(word.charAt(i))) {
@@ -36,7 +36,7 @@ public class WordsReverser {
 		return wordWithoutNonLetters.reverse();
 	}
 	
-	private Map<Integer, Character> getNonLettersPositions(String word) {
+	public Map<Integer, Character> getNonLettersPositions(String word) {
 		Map<Integer, Character> nonLetters = new TreeMap<>();
 		for (int i = 0; i < word.length(); i++) {
 			if (!Character.isLetter(word.charAt(i))) {
@@ -46,7 +46,7 @@ public class WordsReverser {
 		return nonLetters;
 	}
 	
-	private void setNonLettersToReversedWord(StringBuilder result, Map<Integer, Character> nonLetters) {
+	public void setNonLettersToReversedWord(StringBuilder result, Map<Integer, Character> nonLetters) {
 		for(Map.Entry<Integer, Character> nonLetter : nonLetters.entrySet()) {
 			result.insert(nonLetter.getKey(), String.valueOf(nonLetter.getValue()));
 		}
