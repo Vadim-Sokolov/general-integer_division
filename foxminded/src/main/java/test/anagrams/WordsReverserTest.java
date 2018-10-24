@@ -14,36 +14,36 @@ public class WordsReverserTest {
 	private WordsReverser wordsReverser = new WordsReverser();
 	
 	@Test
-	public void testOnlyNumbers() {
+	public void shouldNotReverseText_whenContainsOnlyNumbers() {
 		String testString = "123456";
 		String expected = "123456";
 		assertEquals(expected, wordsReverser.reverseWords(testString));
 	}
 	
 	@Test
-	public void testOnlySpaces() {
+	public void shouldTrimAllSpaces_whenContainsOnlySpaces() {
 		String testString = "   ";
 		String expected = "";
 		assertEquals(expected, wordsReverser.reverseWords(testString));
 	}
 	
 	@Test
-	public void testOnlyLetters() {
+	public void shouldReverseWordCompletely_whenContainsOnlyLetters() {
 		String testString = "abcdefGhiJkLM";
 		String expected = "MLkJihGfedcba";
 		assertEquals(expected, wordsReverser.reverseWords(testString));
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testNullInput() {
+	public void shouldThrowException_whenInputIsNull() {
 		String testString = null;
 		fail(wordsReverser.reverseWords(testString));
 	}
 	
 	@Test
 	public void testLettersAndNonLetters() {
-		String testString = "123abc 456";
-		String expected = "123cba 456";
+		String testString = "123a?\"!bc 456";
+		String expected = "123c?\"!ba 456";
 		assertEquals(expected, wordsReverser.reverseWords(testString));
 	}
 

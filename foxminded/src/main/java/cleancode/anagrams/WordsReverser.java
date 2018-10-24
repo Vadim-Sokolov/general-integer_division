@@ -7,6 +7,9 @@ import java.util.TreeMap;
 public class WordsReverser {
 	
 	public String reverseWords(String wordsToReverse) {
+		if (wordsToReverse == null) {
+			throw new NullPointerException();
+		}
 		StringBuilder result = new StringBuilder();
 		String[] words = splitStringIntoWords(wordsToReverse);
 		for (String word : words) {
