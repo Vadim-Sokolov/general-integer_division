@@ -2,12 +2,8 @@ package test.anagrams;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-
 import cleancode.anagrams.WordsReverser;
 import static org.hamcrest.CoreMatchers.*;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 public class WordsReverserTest {
 	
