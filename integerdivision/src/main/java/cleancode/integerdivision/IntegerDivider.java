@@ -3,40 +3,63 @@ package cleancode.integerdivision;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LongDivider {
+public class IntegerDivider {
 	
-	private List<Pair> pairs = new ArrayList<>();
+	private List<Step> steps = new ArrayList<>();
 	private int dividend;
 	private int divisor;
 	private int quotient;
 	private int remainder;
 
-	public void divideIntegerUsingLongDivision_andRecordTheProcess(int dividend, int divisor) throws ArithmeticException {
-		
+	public void divideInteger(int dividend, int divisor) throws ArithmeticException {
 		if (divisor == 0) {
 			throw new ArithmeticException();
 		}
-		
-		setDividend(dividend);
-		setDivisor(divisor);
-		setQuotient(dividend / divisor);
-		setRemainder(dividend % divisor);
+		setInstanceVariables(dividend, divisor);
+		dividend = Math.abs(dividend);
+		divisor = Math.abs(divisor);
 		
 		int[] digitsOfDividend = convertIntegerToArrayOfDigits(dividend);
 		int currentQuotient = 0;
 		int product = 0;
 		int currentNumber = digitsOfDividend[0];
+		int index = 0;
 		
-		for (int i = 0; i < digitsOfDividend.length; i++) {
+		while (index < digitsOfDividend.length) {
 			if (currentNumber < divisor) {
-				currentNumber = combineTwoIntegersIntoNewInteger(currentNumber, digitsOfDividend[i]);
-			} 
+				int[] nextNumberAndNewIndex = getNextNumber(currentNumber, digitsOfDividend, index, divisor);
+				currentNumber = nextNumberAndNewIndex[0];
+				index = nextNumberAndNewIndex[1];
+			} else {
+				index++;
+			}
 			currentQuotient = currentNumber / divisor;
 			product = divisor * currentQuotient;
-			Pair newPair = new Pair(currentNumber, product);
-			pairs.add(newPair);
+			Step newStep = new Step(currentNumber, product);
+			steps.add(newStep);
 			currentNumber = currentNumber % divisor;
 		}
+	}
+	
+	private int[] getNextNumber(int currentNumber, int[] digits, int index, int divisor) {
+		int[] result = { 0, 0 };
+		while (currentNumber < divisor) {
+			if (index < digits.length) {
+				currentNumber = combineTwoIntegers(currentNumber, digits[index++]);
+			} else {
+				break;
+			}
+		}
+		result[0] = currentNumber;
+		result[1] = index;
+		return result;
+	}
+	
+	private void setInstanceVariables(int dividend, int divisor) {
+		setDividend(dividend);
+		setDivisor(divisor);
+		setQuotient(dividend / divisor);
+		setRemainder(dividend % divisor);
 	}
 	
 	private int[] convertIntegerToArrayOfDigits(int input) {
@@ -48,13 +71,12 @@ public class LongDivider {
 		return digitsOfInput;
 	}
 	
-	private int combineTwoIntegersIntoNewInteger(int first, int second) {
-		String intsCombined = Integer.toString(first) + Integer.toString(second);
-		return Integer.parseInt(intsCombined);
+	private int combineTwoIntegers(int first, int second) {
+		return Integer.parseInt(Integer.toString(first) + Integer.toString(second));
 	}
 
-	public List<Pair> getPairs() {
-		return pairs;
+	public List<Step> getSteps() {
+		return steps;
 	}
 
 	public int getDividend() {
