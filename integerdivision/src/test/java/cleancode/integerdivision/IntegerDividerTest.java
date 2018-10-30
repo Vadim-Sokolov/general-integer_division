@@ -10,17 +10,17 @@ public class IntegerDividerTest {
 	private ResultBuilder resultBuilder = new ResultBuilder();
 	
 	@Test(expected=ArithmeticException.class)
-	public void shouldThrowException_whenDivide0By0() {
+	public void shouldThrowException_whenDivideZeroByZero() {
 		divider.divideInteger(0, 0);
 	}
 	
 	@Test(expected=ArithmeticException.class)
-	public void shouldThrowException_whenDivideNegative10By0() {
+	public void shouldThrowException_whenDivideNegativeNumberByZero() {
 		divider.divideInteger(-10, 0);
 	}
 
 	@Test
-	public void divide0ByNegative10() {
+	public void shouldReturnCorrectResult_whenDivideZeroByNegativeNumber() {
 		divider.divideInteger(0, -10);
 		String expected = "_0 |-10\r\n" + 
 				"-10|-\r\n" + 
@@ -30,7 +30,7 @@ public class IntegerDividerTest {
 	}
 	
 	@Test
-	public void divideNegative200200ByNegative10() {
+	public void shouldReturnCorrectResult_whendivideNegativeNumberByNegativeNumber() {
 		divider.divideInteger(-200200, -10);
 		String expected = "-200200|-10\r\n" + 
 				"-10    |-----\r\n" + 
@@ -49,7 +49,7 @@ public class IntegerDividerTest {
 	}
 	
 	@Test
-	public void divideNegative200200By1000() {
+	public void shouldReturnCorrectResult_whendivideNegativeNumberByPositiveNumber() {
 		divider.divideInteger(-200200, 1000);
 		String expected = "-200200|1000\r\n" + 
 				" 1000  |----\r\n" + 
@@ -65,7 +65,7 @@ public class IntegerDividerTest {
 	}
 	
 	@Test
-	public void divide78945By4() {
+	public void shouldReturnCorrectResult_whendividePositiveNumberByPositiveNumber() {
 		divider.divideInteger(78945, 4);
 		String expected = "_78945|4\r\n" + 
 				" 4    |-----\r\n" + 
@@ -88,7 +88,7 @@ public class IntegerDividerTest {
 	}
 	
 	@Test
-	public void divide10000000By1() {
+	public void shouldReturnCorrectResult_whendividePositiveNumberByOne() {
 		divider.divideInteger(10000000, 1);
 		String expected = "_10000000|1\r\n" + 
 				" 1       |--------\r\n" + 

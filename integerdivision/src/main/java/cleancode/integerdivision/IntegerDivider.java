@@ -11,38 +11,41 @@ public class IntegerDivider {
 	private int quotient;
 	private int remainder;
 
-	public void divideInteger(int dividend, int divisor) throws ArithmeticException {
+	public void divideInteger(int dividend, int divisor) {
 		if (divisor == 0) {
 			throw new ArithmeticException();
 		}
-		setInstanceVariables(dividend, divisor);
+		initializeInstanceVariables(dividend, divisor);
 		dividend = Math.abs(dividend);
 		divisor = Math.abs(divisor);
-		
-		int[] digitsOfDividend = convertIntegerToArrayOfDigits(dividend);
-		int currentQuotient = 0;
-		int product = 0;
+		int[] digitsOfDividend = convertIntegerToDigits(dividend);
+		doLongDivision(dividend, divisor, digitsOfDividend);
+	}
+	
+	private void doLongDivision(int dividend, int divisor, int[] digitsOfDividend) {
 		int currentNumber = digitsOfDividend[0];
 		int index = 0;
-		
 		while (index < digitsOfDividend.length) {
 			if (currentNumber < divisor) {
-				int[] nextNumberAndNewIndex = getNextNumber(currentNumber, digitsOfDividend, index, divisor);
-				currentNumber = nextNumberAndNewIndex[0];
-				index = nextNumberAndNewIndex[1];
+				DividendAndIndex nextDividendAndIndex = getNextDividendAndIndex(currentNumber, digitsOfDividend, index, divisor);
+				currentNumber = nextDividendAndIndex.getDividend();
+				index = nextDividendAndIndex.getIndex();
 			} else {
 				index++;
 			}
-			currentQuotient = currentNumber / divisor;
-			product = divisor * currentQuotient;
-			Step newStep = new Step(currentNumber, product);
-			steps.add(newStep);
+			createAndAddStep(currentNumber, divisor);
 			currentNumber = currentNumber % divisor;
 		}
 	}
 	
-	private int[] getNextNumber(int currentNumber, int[] digits, int index, int divisor) {
-		int[] result = { 0, 0 };
+	private void createAndAddStep(int currentNumber, int divisor) {
+		int currentQuotient = currentNumber / divisor;
+		int integerToSubtract = divisor * currentQuotient;
+		Step step = new Step(currentNumber, integerToSubtract);
+		steps.add(step);
+	}
+	
+	private DividendAndIndex getNextDividendAndIndex(int currentNumber, int[] digits, int index, int divisor) {
 		while (currentNumber < divisor) {
 			if (index < digits.length) {
 				currentNumber = combineTwoIntegers(currentNumber, digits[index++]);
@@ -50,25 +53,23 @@ public class IntegerDivider {
 				break;
 			}
 		}
-		result[0] = currentNumber;
-		result[1] = index;
-		return result;
+		return new DividendAndIndex(currentNumber, index);
 	}
 	
-	private void setInstanceVariables(int dividend, int divisor) {
+	private void initializeInstanceVariables(int dividend, int divisor) {
 		setDividend(dividend);
 		setDivisor(divisor);
 		setQuotient(dividend / divisor);
 		setRemainder(dividend % divisor);
 	}
 	
-	private int[] convertIntegerToArrayOfDigits(int input) {
-		String inputToString = Integer.toString(input);
-		int[] digitsOfInput = new int[inputToString.length()];
-		for (int i = 0; i < inputToString.length(); i++) {
-			digitsOfInput[i] = Character.getNumericValue(inputToString.charAt(i));
+	private int[] convertIntegerToDigits(int input) {
+		String integerToString = Integer.toString(input);
+		int[] digits = new int[integerToString.length()];
+		for (int i = 0; i < integerToString.length(); i++) {
+			digits[i] = Character.getNumericValue(integerToString.charAt(i));
 		}
-		return digitsOfInput;
+		return digits;
 	}
 	
 	private int combineTwoIntegers(int first, int second) {
