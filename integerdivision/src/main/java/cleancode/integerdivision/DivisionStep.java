@@ -1,11 +1,11 @@
 package cleancode.integerdivision;
 
-public class Step {
-	
+public class DivisionStep {
+
 	private int dividend;
 	private int integerToSubtract;
-	
-	public Step(int dividend, int integerToSubtract) {
+
+	public DivisionStep(int dividend, int integerToSubtract) {
 		this.dividend = dividend;
 		this.integerToSubtract = integerToSubtract;
 	}

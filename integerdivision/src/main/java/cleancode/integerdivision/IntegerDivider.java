@@ -4,65 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IntegerDivider {
-	
-	private List<Step> steps = new ArrayList<>();
+
+	private List<DivisionStep> divisionSteps = new ArrayList<>();
 	private int dividend;
 	private int divisor;
 	private int quotient;
 	private int remainder;
+	private int currentIndex;
 
-	public void divideInteger(int dividend, int divisor) {
+	public void performIntegerDivision(int dividend, int divisor) {
 		if (divisor == 0) {
 			throw new ArithmeticException();
 		}
 		initializeInstanceVariables(dividend, divisor);
-		dividend = Math.abs(dividend);
-		divisor = Math.abs(divisor);
-		int[] digitsOfDividend = convertIntegerToDigits(dividend);
-		doLongDivision(dividend, divisor, digitsOfDividend);
+		int absDividend = Math.abs(dividend);
+		int absDivisor = Math.abs(divisor);
+		int[] digitsOfDividend = convertIntegerToDigits(absDividend);
+		divide(absDivisor, digitsOfDividend);
 	}
-	
-	private void doLongDivision(int dividend, int divisor, int[] digitsOfDividend) {
-		int currentNumber = digitsOfDividend[0];
-		int index = 0;
-		while (index < digitsOfDividend.length) {
-			if (currentNumber < divisor) {
-				DividendAndIndex nextDividendAndIndex = getNextDividendAndIndex(currentNumber, digitsOfDividend, index, divisor);
-				currentNumber = nextDividendAndIndex.getDividend();
-				index = nextDividendAndIndex.getIndex();
-			} else {
-				index++;
-			}
-			createAndAddStep(currentNumber, divisor);
-			currentNumber = currentNumber % divisor;
-		}
-	}
-	
-	private void createAndAddStep(int currentNumber, int divisor) {
-		int currentQuotient = currentNumber / divisor;
-		int integerToSubtract = divisor * currentQuotient;
-		Step step = new Step(currentNumber, integerToSubtract);
-		steps.add(step);
-	}
-	
-	private DividendAndIndex getNextDividendAndIndex(int currentNumber, int[] digits, int index, int divisor) {
-		while (currentNumber < divisor) {
-			if (index < digits.length) {
-				currentNumber = combineTwoIntegers(currentNumber, digits[index++]);
-			} else {
-				break;
-			}
-		}
-		return new DividendAndIndex(currentNumber, index);
-	}
-	
+
 	private void initializeInstanceVariables(int dividend, int divisor) {
 		setDividend(dividend);
 		setDivisor(divisor);
 		setQuotient(dividend / divisor);
 		setRemainder(dividend % divisor);
 	}
-	
+
 	private int[] convertIntegerToDigits(int input) {
 		String integerToString = Integer.toString(input);
 		int[] digits = new int[integerToString.length()];
@@ -71,13 +38,46 @@ public class IntegerDivider {
 		}
 		return digits;
 	}
-	
+
+	private void divide(int divisor, int[] digitsOfDividend) {
+		int currentDividendNumber = digitsOfDividend[0];
+		int index = 0;
+		while (index < digitsOfDividend.length) {
+			if (currentDividendNumber < divisor) {
+				currentDividendNumber = getNextDividend(currentDividendNumber, digitsOfDividend, index, divisor);
+				index = currentIndex;
+			} else {
+				index++;
+			}
+			createStep(currentDividendNumber, divisor);
+			currentDividendNumber = currentDividendNumber % divisor;
+		}
+	}
+
+	private int getNextDividend(int currentDividendNumber, int[] digits, int index, int divisor) {
+		while (currentDividendNumber < divisor) {
+			if (index < digits.length) {
+				currentDividendNumber = combineTwoIntegers(currentDividendNumber, digits[index++]);
+			} else {
+				break;
+			}
+		}
+		setCurrentIndex(index);
+		return currentDividendNumber;
+	}
+
 	private int combineTwoIntegers(int first, int second) {
 		return Integer.parseInt(Integer.toString(first) + Integer.toString(second));
 	}
 
-	public List<Step> getSteps() {
-		return steps;
+	private void createStep(int currentDividendNumber, int divisor) {
+		int currentQuotient = currentDividendNumber / divisor;
+		int integerToSubtract = divisor * currentQuotient;
+		divisionSteps.add(new DivisionStep(currentDividendNumber, integerToSubtract));
+	}
+
+	public List<DivisionStep> getDivisionSteps() {
+		return divisionSteps;
 	}
 
 	public int getDividend() {
@@ -111,5 +111,9 @@ public class IntegerDivider {
 	private void setRemainder(int remainder) {
 		this.remainder = remainder;
 	}
-	
+
+	private void setCurrentIndex(int index) {
+		this.currentIndex = index;
+	}
+
 }
