@@ -17,10 +17,10 @@ public class IntegerDivider {
 			throw new ArithmeticException();
 		}
 		initializeInstanceVariables(dividend, divisor);
-		int absDividend = Math.abs(dividend);
-		int absDivisor = Math.abs(divisor);
-		int[] digitsOfDividend = convertIntegerToDigits(absDividend);
-		divide(absDivisor, digitsOfDividend);
+		int absoluteDividend = Math.abs(dividend);
+		int absoluteDivisor = Math.abs(divisor);
+		int[] digitsOfDividend = convertIntegerToDigits(absoluteDividend);
+		divide(absoluteDivisor, digitsOfDividend);
 	}
 
 	private void initializeInstanceVariables(int dividend, int divisor) {
@@ -41,7 +41,7 @@ public class IntegerDivider {
 
 	private void divide(int divisor, int[] digitsOfDividend) {
 		int currentDividendNumber = digitsOfDividend[0];
-		int index = 0;
+		int index = 1;
 		while (index < digitsOfDividend.length) {
 			if (currentDividendNumber < divisor) {
 				currentDividendNumber = getNextDividend(currentDividendNumber, digitsOfDividend, index, divisor);

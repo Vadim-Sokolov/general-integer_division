@@ -22,40 +22,39 @@ public class IntegerDividerTest {
 	@Test
 	public void shouldReturnCorrectResult_whenDivideZeroByNegativeNumber() {
 		divider.performIntegerDivision(0, -10);
-		String expected = "_0 |-10\r\n" + "-10|---\r\n" + " --|0\r\n" + "  0";
-		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
+		assertEquals("_0  |-10\n" + "-10|---\n" + " --|0\n" + "  0",
+				resultBuilder.convertDivisionResultToString(divider));
 	}
 
 	@Test
 	public void shouldReturnCorrectResult_whenDivideNegativeNumberByNegativeNumber() {
 		divider.performIntegerDivision(-200200, -10);
-		String expected = "-200200|-10\r\n" + "-10    |-----\r\n" + " --    |20020\r\n" + "_20\r\n" + " 20\r\n"
-				+ " --\r\n" + " _20\r\n" + "  20\r\n" + "  --\r\n" + "  _0\r\n" + "   0\r\n" + "   -\r\n" + "      0";
+		String expected = "-200200|-10\n" + "-10    |-----\n" + " --    |20020\n" + "_20\n" + " 20\n" + " --\n"
+				+ " _0\n" + "  0\n" + "  -\n" + "      0";
 		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
 	}
 
 	@Test
 	public void shouldReturnCorrectResult_whendivideNegativeNumberByPositiveNumber() {
 		divider.performIntegerDivision(-200200, 1000);
-		String expected = "-200200|1000\r\n" + " 1000  |----\r\n" + " ----  |-200\r\n" + "_2002\r\n" + " 2000\r\n"
-				+ " ----\r\n" + "   _200\r\n" + "    0\r\n" + "    -\r\n" + "      -200";
+		String expected = "-200200|1000\n" + " 1000  |----\n" + " ----  |-200\n" + "_200\n" + " 0\n" + " -\n"
+				+ "      -200";
 		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
 	}
 
 	@Test
 	public void shouldReturnCorrectResult_whendividePositiveNumberByPositiveNumber() {
 		divider.performIntegerDivision(78945, 4);
-		String expected = "_78945|4[\r\n" + " 4    |-----\r\n" + " -    |19736\r\n" + "_38\r\n" + " 36\r\n" + " --\r\n"
-				+ " _29\r\n" + "  28\r\n" + "  --\r\n" + "  _14\r\n" + "   12\r\n" + "   --\r\n" + "   _25\r\n"
-				+ "    24\r\n" + "    --]\r\n" + "     1";
+		String expected = "_78945|4\n" + " 4    |-----\n" + " -    |19736\n" + "_39\n" + " 36\n" + " --\n" + " _34\n"
+				+ "  32\n" + "  --\n" + "  _25\n" + "   24\n" + "   --\n" + "     1";
 		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
 	}
 
 	@Test
 	public void shouldReturnCorrectResult_whendividePositiveNumberByOne() {
 		divider.performIntegerDivision(10000000, 1);
-		String expected = "_10000000|1\r\n" + " 1       |--------\r\n" + " -       |10000000\r\n" + "_0\r\n" + " 0\r\n"
-				+ " -\r\n" + "        0";
+		String expected = "_10000000|1\n" + " 1       |--------\n" + " -       |10000000\n" + "_0\n" + " 0\n" + " -\n"
+				+ "        0";
 		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
 	}
 }
