@@ -6,8 +6,6 @@ import java.util.List;
 public class ResultBuilder {
 
 	private StringBuilder result = new StringBuilder();
-	private final int DIVIDENT_SPACES_SHIFT = 3;
-	private final int SUBTRACT_SPACES_SHIFT = 2;
 
 	public String convertDivisionResultToString(IntegerDivider divider) {
 		int dividendLength = getIntegerLength(Math.abs(divider.getDividend()));
@@ -69,7 +67,7 @@ public class ResultBuilder {
 	private void appendDivisionSteps(List<DivisionStep> divisionSteps) {
 		for (int i = 1; i < divisionSteps.size(); i++) {
 			String dividendSpaces = createDividendSpaces(i, divisionSteps);
-			String integerToSubtractSpaces = createintegerToSubtractSpaces(i, divisionSteps);
+			String integerToSubtractSpaces = createSubtractionSpaces(i, divisionSteps);
 			appendLineToResult(result, dividendSpaces, integerToSubtractSpaces, divisionSteps, i);
 		}
 	}
@@ -79,30 +77,28 @@ public class ResultBuilder {
 		if (index == 1) {
 			result = createStringOfChars(index - 1, ' ');
 		} else {
-			result = createStringOfChars(
-					index - DIVIDENT_SPACES_SHIFT + getIntegerLength(divisionSteps.get(index - 1).getDividend()), ' ');
+			result = createStringOfChars(index - 1, ' ');
 		}
 		return result;
 	}
 
-	private void appendLineToResult(StringBuilder result, String dividendSpaces, String integerToSubtractSpaces,
-			List<DivisionStep> divisionSteps, int i) {
-		result.append(dividendSpaces).append("_").append(divisionSteps.get(i).getDividend()).append("\n")
-				.append(integerToSubtractSpaces).append(divisionSteps.get(i).getIntegerToSubtract()).append("\n")
-				.append(integerToSubtractSpaces)
-				.append(createStringOfChars(getIntegerLength(divisionSteps.get(i).getIntegerToSubtract()), '-'))
-				.append("\n");
-	}
-
-	private String createintegerToSubtractSpaces(int index, List<DivisionStep> divisionSteps) {
+	private String createSubtractionSpaces(int index, List<DivisionStep> divisionSteps) {
 		String result;
 		if (index == 1) {
 			result = createStringOfChars(index, ' ');
 		} else {
-			result = createStringOfChars(index - SUBTRACT_SPACES_SHIFT
-					+ getIntegerLength(divisionSteps.get(index - 1).getIntegerToSubtract()), ' ');
+			result = createStringOfChars(index, ' ');
 		}
 		return result;
+	}
+	
+	private void appendLineToResult(StringBuilder result, String dividendSpaces, String integerToSubtractSpaces,
+			List<DivisionStep> divisionSteps, int index) {
+		result.append(dividendSpaces).append("_").append(divisionSteps.get(index).getDividend()).append("\n")
+				.append(integerToSubtractSpaces).append(divisionSteps.get(index).getIntegerToSubtract()).append("\n")
+				.append(integerToSubtractSpaces)
+				.append(createStringOfChars(getIntegerLength(divisionSteps.get(index).getIntegerToSubtract()), '-'))
+				.append("\n");
 	}
 
 	private void appendLastLine(IntegerDivider divider, int dividendLength) {
@@ -110,7 +106,7 @@ public class ResultBuilder {
 			result.append(createStringOfChars(getIntegerLength(divider.getDivisor()) - dividendLength, ' '))
 					.append(divider.getRemainder());
 		} else {
-			result.append(createStringOfChars(dividendLength, ' ')).append(divider.getRemainder());
+			result.append(createStringOfChars(dividendLength - getIntegerLength(divider.getDivisor()), ' ')).append(divider.getRemainder());
 		}
 	}
 }
