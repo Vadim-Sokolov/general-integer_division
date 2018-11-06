@@ -23,10 +23,10 @@ public class IntegerDividerTest {
 	public void shouldReturnCorrectResult_whenDivideZeroByNegativeNumber() {
 		divider.performIntegerDivision(0, -10);
 		String expected = 
-		"_0  |-10\n" 
-		+ "-10|---\n" 
-		+ " --|0\n" 
-		+ "  0";
+		"_0 |-10\n" + 
+		"-10|---\n" + 
+		" --|0\n" + 
+		"  0";
 				
 		assertEquals(expected, resultBuilder.convertDivisionResultToString(divider));
 	}
@@ -63,7 +63,7 @@ public class IntegerDividerTest {
 	}
 
 	@Test
-	public void shouldReturnCorrectResult_whendividePositiveNumberByPositiveNumber() {
+	public void shouldReturnCorrectResult_whenDividePositiveNumberByPositiveNumber() {
 		divider.performIntegerDivision(78945, 4);
 		String expected = 
 		"_78945|4\n" + 
@@ -83,7 +83,7 @@ public class IntegerDividerTest {
 	}
 
 	@Test
-	public void shouldReturnCorrectResult_whendividePositiveNumberByOne() {
+	public void shouldReturnCorrectResult_whenDividePositiveNumberByOne() {
 		divider.performIntegerDivision(10000000, 1);
 		String expected = 
 		"_10000000|1\n" + 

@@ -25,9 +25,9 @@ public class ResultBuilder {
 		if (divider.getDividend() >= 0) {
 			result.append("_");
 		}
-		if (dividendLength < getIntegerLength(divider.getDivisor())) {
+		if (dividendLength <= getIntegerLength(divider.getDivisor())) {
 			result.append(divider.getDividend())
-					.append(createStringOfChars(getIntegerLength(divider.getDivisor()) - dividendLength, ' '))
+					.append(createStringOfChars(getIntegerLength(divider.getDivisor()) - dividendLength - 1, ' '))
 					.append("|").append(divider.getDivisor()).append("\n");
 		} else {
 			result.append(divider.getDividend()).append("|").append(divider.getDivisor()).append("\n");
